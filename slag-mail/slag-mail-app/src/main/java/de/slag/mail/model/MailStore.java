@@ -1,10 +1,6 @@
 package de.slag.mail.model;
 
-import javax.mail.NoSuchProviderException;
-import javax.mail.Session;
 import javax.mail.Store;
-
-import de.slag.mail.MailException;
 
 public class MailStore {
 
