@@ -8,7 +8,10 @@ import java.util.Collection;
 import java.util.Objects;
 import java.util.Properties;
 
-+public class MailProperties {
+import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.StringUtils;
+
+public class MailProperties {
 
 	private static final String ACCOUNT = "account";
 
