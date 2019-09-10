@@ -8,7 +8,7 @@ import java.util.Collection;
 import java.util.Objects;
 import java.util.Properties;
 
-public class MailProperties {
++public class MailProperties {
 
 	private static final String ACCOUNT = "account";
 
@@ -38,6 +38,10 @@ public class MailProperties {
 		return Arrays.asList(split);
 	}
 
+	private boolean bool(String key) {
+		return BooleanUtils.isTrue(Boolean.valueOf(properties.getProperty(key)));
+	}
+
 	public Collection<String> getIds() {
 		return collection(ACCOUNT + DOT + "ids");
 	}
@@ -52,6 +56,18 @@ public class MailProperties {
 
 	public String getPassword(String id) {
 		return properties.getProperty(ACCOUNT + DOT + id + DOT + "password");
+	}
+
+	public Integer getPort(String id) {
+		String property = properties.getProperty(ACCOUNT + DOT + id + DOT + "port");
+		if (StringUtils.isBlank(property)) {
+			return null;
+		}
+		return Integer.valueOf(property);
+	}
+
+	public boolean isSsl(String id) {
+		return bool(ACCOUNT + DOT + id + DOT + "ssl");
 	}
 
 }
