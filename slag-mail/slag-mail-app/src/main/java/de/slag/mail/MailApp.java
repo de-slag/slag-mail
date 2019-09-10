@@ -23,7 +23,7 @@ public class MailApp {
 	}
 
 	private static void processMailId(final MailProperties mailProperties, String id) {
-		final Session session = Session.getDefaultInstance(new Properties());
+		final Session session = new SessionBuilder().build();
 
 		final String host = mailProperties.getHost(id);
 		final String password = mailProperties.getPassword(id);
