@@ -10,6 +10,10 @@ import java.util.Properties;
 
 public class MailProperties {
 
+	private static final String ACCOUNT = "account";
+
+	private static final String DOT = ".";
+
 	private Properties properties;
 
 	public MailProperties(File configFile) {
@@ -35,19 +39,19 @@ public class MailProperties {
 	}
 
 	public Collection<String> getIds() {
-		return collection("mail.ids");
+		return collection(ACCOUNT + DOT + "ids");
 	}
 
 	public String getHost(String id) {
-		return properties.getProperty("mail." + id + ".host");
+		return properties.getProperty(ACCOUNT + DOT + id + DOT + "host");
 	}
-	
+
 	public String getUser(String id) {
-		return properties.getProperty("mail." + id + ".user");
+		return properties.getProperty(ACCOUNT + DOT + id + DOT + "user");
 	}
-	
+
 	public String getPassword(String id) {
-		return properties.getProperty("mail." + id + ".password");
+		return properties.getProperty(ACCOUNT + DOT + id + DOT + "password");
 	}
 
 }
