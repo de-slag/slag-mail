@@ -1,5 +1,7 @@
 package de.slag.mail.model;
 
+import java.util.Objects;
+
 import javax.mail.MessagingException;
 import javax.mail.NoSuchProviderException;
 import javax.mail.Session;
@@ -20,22 +22,22 @@ public class MailStoreBuilder implements Builder<MailStore> {
 	private String user;
 
 	private String password;
-	
+
 	public MailStoreBuilder host(String host) {
 		this.host = host;
 		return this;
 	}
-	
+
 	public MailStoreBuilder password(String password) {
 		this.password = password;
 		return this;
 	}
-	
+
 	public MailStoreBuilder user(String user) {
 		this.user = user;
 		return this;
 	}
-	
+
 	public MailStoreBuilder protocol(String protocol) {
 		this.protocol = protocol;
 		return this;
@@ -48,6 +50,8 @@ public class MailStoreBuilder implements Builder<MailStore> {
 
 	@Override
 	public MailStore build() {
+		Objects.requireNonNull(session, "session not setted");
+
 		Store store;
 		try {
 			store = session.getStore(protocol);
