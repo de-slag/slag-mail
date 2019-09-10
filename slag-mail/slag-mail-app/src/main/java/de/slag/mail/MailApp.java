@@ -2,7 +2,6 @@ package de.slag.mail;
 
 import java.io.File;
 import java.util.Collection;
-import java.util.Properties;
 
 import javax.mail.Session;
 
@@ -23,7 +22,9 @@ public class MailApp {
 	}
 
 	private static void processMailId(final MailProperties mailProperties, String id) {
-		final Session session = new SessionBuilder().build();
+
+		final Session session = new SessionBuilder().ssl(mailProperties.isSsl(id)).port(mailProperties.getPort(id))
+				.build();
 
 		final String host = mailProperties.getHost(id);
 		final String password = mailProperties.getPassword(id);
@@ -33,7 +34,7 @@ public class MailApp {
 				.password(password).user(user).build();
 
 		final MailFolder inboxFolder = mailStore.getInboxFolder();
-		System.out.println(id + ", message count: "+ inboxFolder.getMessageCount());
+		System.out.println(id + ", message count: " + inboxFolder.getMessageCount());
 	}
 
 }
