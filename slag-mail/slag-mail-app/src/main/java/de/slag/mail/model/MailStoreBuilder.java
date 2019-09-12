@@ -8,10 +8,14 @@ import javax.mail.Session;
 import javax.mail.Store;
 
 import org.apache.commons.lang3.builder.Builder;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import de.slag.mail.MailException;
 
 public class MailStoreBuilder implements Builder<MailStore> {
+	
+	private static final Log LOG = LogFactory.getLog(MailStoreBuilder.class);
 
 	private Session session;
 
@@ -50,6 +54,7 @@ public class MailStoreBuilder implements Builder<MailStore> {
 
 	@Override
 	public MailStore build() {
+		LOG.info(this);
 		Objects.requireNonNull(session, "session not setted");
 
 		Store store;
@@ -64,6 +69,12 @@ public class MailStoreBuilder implements Builder<MailStore> {
 			throw new MailException(e);
 		}
 		return new MailStore(store);
+	}
+
+	@Override
+	public String toString() {
+		return "MailStoreBuilder [session=" + session + ", protocol=" + protocol + ", host=" + host + ", user=" + user
+				+ ", password=" + password + "]";
 	}
 
 }
