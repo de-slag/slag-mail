@@ -2,18 +2,19 @@ package de.slag.mail;
 
 import java.io.File;
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 import javax.mail.Session;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import de.slag.mail.model.MailFolder;
 import de.slag.mail.model.MailStore;
 import de.slag.mail.model.MailStoreBuilder;
+import de.slag.mail.ops.MailCountOperation;
 
 public class MailApp {
-	
+
 	private static final Log LOG = LogFactory.getLog(MailApp.class);
 
 	public static void main(String[] args) {
@@ -39,8 +40,27 @@ public class MailApp {
 		final MailStore mailStore = new MailStoreBuilder().session(session).protocol("imap").host(host)
 				.password(password).user(user).build();
 
-		final MailFolder inboxFolder = mailStore.getInboxFolder();
-		System.out.println(id + ", message count: " + inboxFolder.getMessageCount());
+		final Collection<MailOperation<?>> ops = determineOperations(mailProperties, mailStore, id);
+
+		ops.forEach(op -> System.out.println(op.callSafe()));
+
+	}
+
+	private static Collection<MailOperation<?>> determineOperations(MailProperties mailProperties, MailStore mailStore,
+			String accountId) {
+		return mailProperties.getOperationIds(accountId).stream().map(opId -> determineOperation(opId, mailStore))
+				.collect(Collectors.toList());
+
+	}
+
+	private static MailOperation determineOperation(String operationIdentifier, MailStore mailStore) {
+		switch (operationIdentifier) {
+		case MailOperation.COUNTMESSAGES:
+			return new MailCountOperation(mailStore);
+
+		default:
+			throw new MailException("no valid ops id: " + operationIdentifier);
+		}
 	}
 
 }
