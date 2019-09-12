@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Objects;
 import java.util.Properties;
 
@@ -12,6 +13,8 @@ import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 
 public class MailProperties {
+
+	private static final String IDS = "ids";
 
 	private static final String SSL = "ssl";
 
@@ -28,6 +31,8 @@ public class MailProperties {
 	private static final String IMAP = "imap";
 
 	private static final String DOT = ".";
+
+	private static final String OPERATION = "operation";
 
 	private Properties properties;
 
@@ -52,6 +57,10 @@ public class MailProperties {
 
 	private Collection<String> collection(String key) {
 		final String property = properties.getProperty(key);
+		if (property == null) {
+			return Collections.emptyList();
+		}
+
 		Objects.requireNonNull(property, "property not found: " + key);
 		final String[] split = property.split(";");
 		return Arrays.asList(split);
@@ -70,7 +79,7 @@ public class MailProperties {
 	}
 
 	public Collection<String> getIds() {
-		return collection(ACCOUNT + DOT + "ids");
+		return collection(ACCOUNT + DOT + IDS);
 	}
 
 	public String getHost(String id) {
@@ -91,6 +100,10 @@ public class MailProperties {
 
 	public boolean isSsl(String id) {
 		return getBoolean(join(ACCOUNT, id, IMAP, SSL));
+	}
+
+	public Collection<String> getOperationIds(String id) {
+		return collection(join(ACCOUNT, id, OPERATION, IDS));
 	}
 
 }
