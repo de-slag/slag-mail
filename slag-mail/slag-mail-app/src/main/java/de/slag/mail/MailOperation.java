@@ -6,6 +6,8 @@ import de.slag.mail.model.MailStore;
 
 public abstract class MailOperation<V> implements Callable<V> {
 
+	public static final String COUNTMESSAGES = "countmessages";
+	
 	private final MailStore mailStore;
 
 	public abstract String getIdentifier();

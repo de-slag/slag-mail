@@ -16,7 +16,7 @@ public class MailCountOperation extends MailOperation<String> {
 
 	@Override
 	public String getIdentifier() {
-		return "countmessages";
+		return COUNTMESSAGES;
 	}
 
 }
