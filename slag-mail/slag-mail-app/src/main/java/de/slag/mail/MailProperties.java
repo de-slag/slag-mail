@@ -11,10 +11,14 @@ import java.util.Properties;
 
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 public class MailProperties {
 
-	private static final String IDS = "ids";
+	private static final Log LOG = LogFactory.getLog(MailProperties.class);
+
+	public static final String IDS = "ids";
 
 	private static final String SSL = "ssl";
 
@@ -26,11 +30,11 @@ public class MailProperties {
 
 	private static final String HOST = "host";
 
-	private static final String ACCOUNT = "account";
+	public static final String ACCOUNT = "account";
 
 	private static final String IMAP = "imap";
 
-	private static final String DOT = ".";
+	public static final String DOT = ".";
 
 	private static final String OPERATION = "operation";
 
@@ -51,12 +55,18 @@ public class MailProperties {
 		this.properties = properties;
 	}
 
+	private String getProperty0(String key) {
+		final String string = properties.getProperty(key);
+		LOG.info(String.format("key: '%s', value '%s'", key, string != null));
+		return string;
+	}
+
 	private String join(String... strings) {
 		return String.join(DOT, strings);
 	}
 
 	private Collection<String> collection(String key) {
-		final String property = properties.getProperty(key);
+		final String property = getProperty0(key);
 		if (property == null) {
 			return Collections.emptyList();
 		}
@@ -67,11 +77,11 @@ public class MailProperties {
 	}
 
 	private boolean getBoolean(String key) {
-		return BooleanUtils.isTrue(Boolean.valueOf(properties.getProperty(key)));
+		return BooleanUtils.isTrue(Boolean.valueOf(getProperty0(key)));
 	}
 
 	private Integer getInteger(String key) {
-		String property = properties.getProperty(key);
+		String property = getProperty0(key);
 		if (StringUtils.isBlank(property)) {
 			return null;
 		}
@@ -83,15 +93,15 @@ public class MailProperties {
 	}
 
 	public String getHost(String id) {
-		return properties.getProperty(join(ACCOUNT, id, IMAP, HOST));
+		return getProperty0(join(ACCOUNT, id, IMAP, HOST));
 	}
 
 	public String getUser(String id) {
-		return properties.getProperty(join(ACCOUNT, id, IMAP, USER));
+		return getProperty0(join(ACCOUNT, id, IMAP, USER));
 	}
 
 	public String getPassword(String id) {
-		return properties.getProperty(join(ACCOUNT, id, IMAP, PASSWORD));
+		return getProperty0(join(ACCOUNT, id, IMAP, PASSWORD));
 	}
 
 	public Integer getPort(String id) {
