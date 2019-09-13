@@ -8,6 +8,8 @@ public abstract class MailOperation<V> implements Callable<V> {
 
 	public static final String COUNTMESSAGES = "countmessages";
 	
+	public static final String COUNT_SPAM = "count_spam";
+	
 	private final MailStore mailStore;
 
 	public abstract String getIdentifier();
