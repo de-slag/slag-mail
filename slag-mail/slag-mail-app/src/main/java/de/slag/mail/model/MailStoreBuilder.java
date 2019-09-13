@@ -57,6 +57,10 @@ public class MailStoreBuilder implements Builder<MailStore> {
 	public MailStore build() {
 		LOG.info(this);
 		Objects.requireNonNull(session, "session not setted");
+		
+		Objects.requireNonNull(host, "host not setted");
+		Objects.requireNonNull(user, "user not setted");
+		Objects.requireNonNull(password, "password not setted");
 
 		Store store;
 		try {
@@ -74,7 +78,7 @@ public class MailStoreBuilder implements Builder<MailStore> {
 
 	@Override
 	public String toString() {
-		final String passwordAlias = StringUtils.repeat("*", password.length());
+		final String passwordAlias = StringUtils.repeat("*", password != null ? password.length() : 0);
 		return "MailStoreBuilder [session=" + session + ", protocol=" + protocol + ", host=" + host + ", user=" + user
 				+ ", password=" + passwordAlias + "]";
 	}
