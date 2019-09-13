@@ -26,6 +26,13 @@ public class MailApp {
 		final MailProperties mailProperties = new MailProperties(configFile);
 		final Collection<String> ids = mailProperties.getIds();
 
+		if (ids.isEmpty()) {
+			LOG.warn(String.format("no configured ids found. Set parameter '%s' to configure ids. Config-file: %s",
+					String.join(MailProperties.DOT, MailProperties.ACCOUNT, MailProperties.IDS),
+					configFile.getAbsolutePath()));
+			return;
+		}
+
 		ids.forEach(id -> processMailId(mailProperties, id));
 	}
 
