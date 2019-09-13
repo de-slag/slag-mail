@@ -53,7 +53,7 @@ public class MailApp {
 
 	}
 
-	private static MailOperation determineOperation(String operationIdentifier, MailStore mailStore) {
+	private static MailOperation<?> determineOperation(String operationIdentifier, MailStore mailStore) {
 		switch (operationIdentifier) {
 		case MailOperation.COUNTMESSAGES:
 			return new MailCountOperation(mailStore);
