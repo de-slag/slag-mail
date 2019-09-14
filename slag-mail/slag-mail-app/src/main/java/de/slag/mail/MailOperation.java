@@ -14,6 +14,8 @@ public abstract class MailOperation<V> implements Callable<V> {
 	public static final String COUNTMESSAGES = "countmessages";
 
 	public static final String COUNT_SPAM = "count_spam";
+	
+	public static final String MOVE_SPAM = "move_spam";
 
 	private final MailStore mailStore;
 

@@ -12,6 +12,7 @@ import org.apache.commons.logging.LogFactory;
 import de.slag.mail.model.MailStore;
 import de.slag.mail.model.MailStoreBuilder;
 import de.slag.mail.ops.MailCountOperation;
+import de.slag.mail.ops.MailMoveSpamOperation;
 import de.slag.mail.ops.MailSpamCountOperation;
 
 public class MailApp {
@@ -67,6 +68,8 @@ public class MailApp {
 			return new MailCountOperation(mailStore);
 		case MailOperation.COUNT_SPAM:
 			return new MailSpamCountOperation(mailStore);
+		case MailOperation.MOVE_SPAM:
+			return new MailMoveSpamOperation(mailStore);
 
 		default:
 			throw new MailException("no valid ops id: " + operationIdentifier);
