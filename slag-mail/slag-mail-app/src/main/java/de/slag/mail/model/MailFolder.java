@@ -21,6 +21,10 @@ public class MailFolder {
 			throw new MailException(e);
 		}
 	}
+	
+	public MailFolder(Folder folder) {
+		this.folder = folder;
+	}
 
 	public int getMessageCount() {
 		try {
@@ -48,6 +52,32 @@ public class MailFolder {
 		} catch (MessagingException e) {
 			throw new MailException(e);
 		}
+	}
+
+	public Folder getFolder() {
+		return folder;
+	}
+
+	public Folder getSubFolder(String subfolderName) {
+		final Folder subfolder;
+		try {
+			subfolder = folder.getFolder(subfolderName);
+		} catch (MessagingException e) {
+			throw new MailException(e);
+		}
+
+		boolean subfolderExists;
+		try {
+			subfolderExists = subfolder.exists();
+		} catch (MessagingException e) {
+			throw new MailException(e);
+		}
+
+		if (!subfolderExists) {
+			throw new MailException(
+					String.format("subfolder '%s' of folder '%s' does not exists", subfolderName, folder.getName()));
+		}
+		return subfolder;
 	}
 
 }
