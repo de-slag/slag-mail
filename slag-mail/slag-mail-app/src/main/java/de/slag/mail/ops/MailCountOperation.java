@@ -21,7 +21,7 @@ public class MailCountOperation extends MailOperation<String> {
 	}
 
 	@Override
-	public String call() throws Exception {
+	protected String call0() throws Exception {
 		final long messageCount;
 		final MailFolder inboxFolder = getMailStore().getInboxFolder();
 		if (filter == null) {

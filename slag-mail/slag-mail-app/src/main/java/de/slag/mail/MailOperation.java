@@ -2,14 +2,19 @@ package de.slag.mail;
 
 import java.util.concurrent.Callable;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import de.slag.mail.model.MailStore;
 
 public abstract class MailOperation<V> implements Callable<V> {
 
+	private static final Log LOG = LogFactory.getLog(MailOperation.class);
+
 	public static final String COUNTMESSAGES = "countmessages";
-	
+
 	public static final String COUNT_SPAM = "count_spam";
-	
+
 	private final MailStore mailStore;
 
 	public abstract String getIdentifier();
@@ -20,6 +25,14 @@ public abstract class MailOperation<V> implements Callable<V> {
 
 	protected MailStore getMailStore() {
 		return mailStore;
+	}
+
+	protected abstract V call0() throws Exception;
+
+	@Override
+	public V call() throws Exception {
+		LOG.info(String.format("calling '%s'...", getIdentifier()));
+		return call0();
 	}
 
 	public V callSafe() {
