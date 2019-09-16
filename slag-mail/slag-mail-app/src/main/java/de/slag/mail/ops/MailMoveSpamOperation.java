@@ -41,6 +41,10 @@ public class MailMoveSpamOperation extends MailOperation<String> {
 		final MailFolder spamFolder = new MailFolder(inboxFolder.getSubFolder("spam"));
 		spamFolder.open(Folder.READ_WRITE);
 
+		if (spamMessages.isEmpty()) {
+			return "nothing to do";
+		}
+
 		final MailMessage spamMessage = spamMessages.get(0);
 
 		final Collection<MailMessage> spamMessagesToMove = new ArrayList<>();
