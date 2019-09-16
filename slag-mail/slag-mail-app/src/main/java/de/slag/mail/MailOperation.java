@@ -17,6 +17,8 @@ public abstract class MailOperation<V> implements Callable<V> {
 	
 	public static final String MOVE_SPAM = "move_spam";
 
+	protected static final String TEST = "test";
+
 	private final MailStore mailStore;
 
 	public abstract String getIdentifier();

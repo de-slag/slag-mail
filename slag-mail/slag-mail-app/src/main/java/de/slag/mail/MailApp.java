@@ -14,6 +14,7 @@ import de.slag.mail.model.MailStoreBuilder;
 import de.slag.mail.ops.MailCountOperation;
 import de.slag.mail.ops.MailMoveSpamOperation;
 import de.slag.mail.ops.MailSpamCountOperation;
+import de.slag.mail.ops.MailTestOperation;
 
 public class MailApp {
 
@@ -70,6 +71,8 @@ public class MailApp {
 			return new MailSpamCountOperation(mailStore);
 		case MailOperation.MOVE_SPAM:
 			return new MailMoveSpamOperation(mailStore);
+		case MailCountOperation.TEST:
+			return new MailTestOperation(mailStore);
 
 		default:
 			throw new MailException("no valid ops id: " + operationIdentifier);
