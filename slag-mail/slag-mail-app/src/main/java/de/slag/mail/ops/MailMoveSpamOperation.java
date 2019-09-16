@@ -45,10 +45,8 @@ public class MailMoveSpamOperation extends MailOperation<String> {
 			return "nothing to do";
 		}
 
-		final MailMessage spamMessage = spamMessages.get(0);
 
-		final Collection<MailMessage> spamMessagesToMove = new ArrayList<>();
-		spamMessagesToMove.add(spamMessage);
+		final Collection<MailMessage> spamMessagesToMove = new ArrayList<>(spamMessages);
 
 		final List<String> messagesInfos = new ArrayList<>();
 

@@ -57,7 +57,7 @@ public class MailProperties {
 
 	private String getProperty0(String key) {
 		final String string = properties.getProperty(key);
-		LOG.info(String.format("key: '%s', value '%s'", key, string != null));
+		LOG.debug(String.format("key: '%s', value '%s'", key, string != null));
 		return string;
 	}
 
@@ -72,7 +72,7 @@ public class MailProperties {
 		}
 
 		Objects.requireNonNull(property, "property not found: " + key);
-		final String[] split = property.split(";");
+		final String[] split = property.split(",");
 		return Arrays.asList(split);
 	}
 

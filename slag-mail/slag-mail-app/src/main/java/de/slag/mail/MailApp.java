@@ -2,19 +2,11 @@ package de.slag.mail;
 
 import java.io.File;
 import java.util.Collection;
+import java.util.List;
 import java.util.stream.Collectors;
-
-import javax.mail.Session;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
-import de.slag.mail.model.MailStore;
-import de.slag.mail.model.MailStoreBuilder;
-import de.slag.mail.ops.MailCountOperation;
-import de.slag.mail.ops.MailMoveSpamOperation;
-import de.slag.mail.ops.MailSpamCountOperation;
-import de.slag.mail.ops.MailTestOperation;
 
 public class MailApp {
 
@@ -35,48 +27,15 @@ public class MailApp {
 			return;
 		}
 
-		ids.forEach(id -> processMailId(mailProperties, id));
-	}
-
-	private static void processMailId(final MailProperties mailProperties, String id) {
-		LOG.info("process id: " + id);
-		final Session session = new SessionBuilder().ssl(mailProperties.isSsl(id)).port(mailProperties.getPort(id))
-				.build();
-
-		final String host = mailProperties.getHost(id);
-		final String password = mailProperties.getPassword(id);
-		final String user = mailProperties.getUser(id);
-
-		final MailStore mailStore = new MailStoreBuilder().session(session).protocol("imap").host(host)
-				.password(password).user(user).build();
-
-		final Collection<MailOperation<?>> ops = determineOperations(mailProperties, mailStore, id);
-
-		ops.forEach(op -> System.out.println(op.callSafe()));
-
-	}
-
-	private static Collection<MailOperation<?>> determineOperations(MailProperties mailProperties, MailStore mailStore,
-			String accountId) {
-		return mailProperties.getOperationIds(accountId).stream().map(opId -> determineOperation(opId, mailStore))
+		final List<MailAccountHandler> handlers = ids.stream().map(id -> new MailAccountHandler(id, mailProperties))
 				.collect(Collectors.toList());
-
-	}
-
-	private static MailOperation<?> determineOperation(String operationIdentifier, MailStore mailStore) {
-		switch (operationIdentifier) {
-		case MailOperation.COUNTMESSAGES:
-			return new MailCountOperation(mailStore);
-		case MailOperation.COUNT_SPAM:
-			return new MailSpamCountOperation(mailStore);
-		case MailOperation.MOVE_SPAM:
-			return new MailMoveSpamOperation(mailStore);
-		case MailCountOperation.TEST:
-			return new MailTestOperation(mailStore);
-
-		default:
-			throw new MailException("no valid ops id: " + operationIdentifier);
-		}
+		
+		handlers.forEach(h -> h.run());
+		
+		final List<MailReporter> reporters = handlers.stream().map(h -> h.getReporter()).collect(Collectors.toList());
+		reporters.forEach(r -> System.out.println(r));
+		
+		
 	}
 
 }
