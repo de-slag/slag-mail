@@ -34,4 +34,10 @@ public class MailMessage {
 			throw new MailException(e);
 		}
 	}
+
+	@Override
+	public String toString() {
+		return "MailMessage [message=" + message + ", getSubject()=" + getSubject() + ", getSentDate()=" + getSentDate()
+				+ "]";
+	}
 }
