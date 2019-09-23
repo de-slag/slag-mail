@@ -116,4 +116,8 @@ public class MailProperties {
 		return collection(join(ACCOUNT, id, OPERATION, IDS));
 	}
 
+	public boolean isTest() {
+		return getBoolean("test");
+	}
+
 }
