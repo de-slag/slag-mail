@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Properties;
 
 import org.apache.commons.lang3.BooleanUtils;
@@ -118,6 +119,10 @@ public class MailProperties {
 
 	public boolean isTest() {
 		return getBoolean("test");
+	}
+
+	public Optional<String> getProperty(String key) {
+		return Optional.of(properties.getProperty(key));
 	}
 
 }
