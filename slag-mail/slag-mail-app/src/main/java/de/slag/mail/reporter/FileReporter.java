@@ -26,7 +26,7 @@ public class FileReporter implements Reporter {
 	private void accept0(String t) throws IOException {
 		final FileWriter fileWriter = new FileWriter(file, true);
 		fileWriter.write(t);
-		fileWriter.write("\n");
+		fileWriter.write(System.lineSeparator());
 		fileWriter.close();
 	}
 
