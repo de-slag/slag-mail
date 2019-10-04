@@ -36,9 +36,8 @@ public class FileReporter implements Reporter {
 	}
 
 	private void accept0(String t) throws IOException {
-		final String date = new SimpleDateFormat("yyyy-MM-dd_hh:mm:ss.SSS").format(new Date());
 		final FileWriter fileWriter = new FileWriter(file, true);
-		fileWriter.write(date + ": " + t);
+		fileWriter.write(t);
 		fileWriter.write(System.lineSeparator());
 		fileWriter.close();
 	}
