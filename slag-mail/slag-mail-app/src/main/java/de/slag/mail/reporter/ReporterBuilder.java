@@ -1,7 +1,6 @@
 package de.slag.mail.reporter;
 
 import java.io.File;
-import java.util.Objects;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.Builder;
