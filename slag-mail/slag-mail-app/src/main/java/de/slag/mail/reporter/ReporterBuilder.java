@@ -1,7 +1,10 @@
 package de.slag.mail.reporter;
 
 import java.io.File;
+<<<<<<< HEAD
 import java.util.Objects;
+=======
+>>>>>>> branch 'master' of https://github.com/de-slag/slag-mail.git
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.Builder;
@@ -10,6 +13,8 @@ import de.slag.mail.MailException;
 
 public class ReporterBuilder implements Builder<Reporter> {
 
+	public static final String TYPE_FILE = "file";
+
 	private String type;
 
 	private String outputFileName;
@@ -17,9 +22,11 @@ public class ReporterBuilder implements Builder<Reporter> {
 	@Override
 	public Reporter build() {
 
+
 		Objects.requireNonNull(type, "reporter type not setted");
 
 		switch (type) {
+
 		case "file":
 			if (StringUtils.isBlank(outputFileName)) {
 				throw new MailException("output file name not setted");
@@ -38,7 +45,7 @@ public class ReporterBuilder implements Builder<Reporter> {
 			fileReporter.setFile(file);
 			return fileReporter;
 		default:
-			throw new MailException("builder type not known: " + type);
+			throw new IllegalStateException(this.toString());
 		}
 
 	}
