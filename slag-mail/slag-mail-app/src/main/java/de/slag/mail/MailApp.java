@@ -8,8 +8,6 @@ import java.util.stream.Collectors;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import de.slag.mail.reporter.Reporter;
-
 public class MailApp {
 
 	private static final Log LOG = LogFactory.getLog(MailApp.class);
@@ -35,10 +33,6 @@ public class MailApp {
 				.collect(Collectors.toList());
 
 		handlers.forEach(h -> h.run());
-
-		final List<Reporter> reporters = handlers.stream().map(h -> h.getReporter()).collect(Collectors.toList());
-		reporters.forEach(r -> System.out.println(r));
-
 	}
 
 }
