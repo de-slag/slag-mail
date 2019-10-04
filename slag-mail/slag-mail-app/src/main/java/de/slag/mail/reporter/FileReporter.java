@@ -23,10 +23,16 @@ public class FileReporter implements Reporter {
 	@Override
 	public void accept(String t) {
 		try {
-			accept0(t);
+			synchronized (this) {
+				accept0(getDateAndTime() + " " + t);				
+			}
 		} catch (IOException e) {
 			throw new MailException(e);
 		}
+	}
+	
+	private String getDateAndTime() {
+		return new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS").format(new Date());
 	}
 
 	private void accept0(String t) throws IOException {

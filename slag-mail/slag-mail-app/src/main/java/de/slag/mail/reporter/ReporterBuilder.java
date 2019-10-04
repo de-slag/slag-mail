@@ -1,10 +1,7 @@
 package de.slag.mail.reporter;
 
 import java.io.File;
-<<<<<<< HEAD
 import java.util.Objects;
-=======
->>>>>>> branch 'master' of https://github.com/de-slag/slag-mail.git
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.Builder;
@@ -22,8 +19,9 @@ public class ReporterBuilder implements Builder<Reporter> {
 	@Override
 	public Reporter build() {
 
-
-		Objects.requireNonNull(type, "reporter type not setted");
+		if (StringUtils.isBlank(type)) {
+			throw new MailException("reporter type not setted");
+		}
 
 		switch (type) {
 
@@ -35,9 +33,8 @@ public class ReporterBuilder implements Builder<Reporter> {
 
 			if (!file.exists()) {
 				final File parentFolder = file.getParentFile();
-				if (!parentFolder.exists()) {
-					throw new MailException(
-							String.format("parent folder '%s' does not exists", parentFolder.getAbsolutePath()));
+				if (parentFolder == null || !parentFolder.exists()) {
+					throw new MailException(String.format("parent folder for '%s' does not exists", outputFileName));
 				}
 			}
 
