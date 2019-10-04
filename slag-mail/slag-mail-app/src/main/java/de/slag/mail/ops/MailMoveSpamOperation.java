@@ -53,7 +53,7 @@ public class MailMoveSpamOperation extends MailOperation<String> {
 		spamMessagesToMove.forEach(m -> {
 			MailMessageMoveUtils.move(m, inboxFolder, spamFolder);
 			messagesInfos
-					.add(String.format("spam messages moved: SUBJECT: %s, DATE: %s", m.getSubject(), m.getSentDate()));
+					.add(String.format("spam messages moved: DATE: %s, SUBJECT: %s", m.getSentDate(), m.getSubject()));
 		});
 
 		spamFolder.getFolder().close(true);
