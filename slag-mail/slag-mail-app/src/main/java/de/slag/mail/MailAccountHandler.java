@@ -9,20 +9,23 @@ import org.apache.commons.logging.LogFactory;
 
 import de.slag.mail.model.MailStore;
 import de.slag.mail.model.MailStoreBuilder;
+import de.slag.mail.reporter.Reporter;
+import de.slag.mail.reporter.ReporterBuilder;
 
 public class MailAccountHandler implements Runnable {
-	
+
 	private static final Log LOG = LogFactory.getLog(MailAccountHandler.class);
 
 	private final String id;
 
-	private final MailReporter reporter;
+	private final Reporter reporter;
 
 	private final MailProperties mailProperties;
 
 	public MailAccountHandler(String id, MailProperties mailProperties) {
 		this.id = id;
-		this.reporter = new MailReporter(id);
+		this.reporter = new ReporterBuilder().type("file")
+				.outputFileName(mailProperties.getProperty("reporter.outputFileName").get()).build();
 		this.mailProperties = mailProperties;
 	}
 
@@ -45,11 +48,11 @@ public class MailAccountHandler implements Runnable {
 	}
 
 	private void report(Object o) {
-		reporter.accept(id + ": "+ o.toString());
-		//System.out.println(o);
+		reporter.accept(id + ": " + o.toString());
+		// System.out.println(o);
 	}
 
-	public MailReporter getReporter() {
+	public Reporter getReporter() {
 		return reporter;
 	}
 

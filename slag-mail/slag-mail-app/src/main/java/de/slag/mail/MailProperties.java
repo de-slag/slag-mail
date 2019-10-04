@@ -122,6 +122,7 @@ public class MailProperties {
 	}
 
 	public Optional<String> getProperty(String key) {
+		LOG.info("try to get property key: " + key);
 		return Optional.of(properties.getProperty(key));
 	}
 

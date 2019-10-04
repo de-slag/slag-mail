@@ -8,6 +8,8 @@ import java.util.stream.Collectors;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import de.slag.mail.reporter.Reporter;
+
 public class MailApp {
 
 	private static final Log LOG = LogFactory.getLog(MailApp.class);
@@ -16,6 +18,8 @@ public class MailApp {
 		LOG.info("start");
 		final MailCommandLine mailCommandLine = new MailCommandLineBuilder().arguments(args).build();
 		final File configFile = mailCommandLine.getConfigFile();
+
+		LOG.info("using config file: " + configFile.getAbsolutePath());
 
 		final MailProperties mailProperties = new MailProperties(configFile);
 		final Collection<String> ids = mailProperties.getIds();
@@ -29,13 +33,12 @@ public class MailApp {
 
 		final List<MailAccountHandler> handlers = ids.stream().map(id -> new MailAccountHandler(id, mailProperties))
 				.collect(Collectors.toList());
-		
+
 		handlers.forEach(h -> h.run());
-		
-		final List<MailReporter> reporters = handlers.stream().map(h -> h.getReporter()).collect(Collectors.toList());
+
+		final List<Reporter> reporters = handlers.stream().map(h -> h.getReporter()).collect(Collectors.toList());
 		reporters.forEach(r -> System.out.println(r));
-		
-		
+
 	}
 
 }
