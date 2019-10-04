@@ -6,7 +6,7 @@
 		<groupId>de.slag.mail</groupId>
 		<artifactId>slag-mail</artifactId>
 		<version>0.1.0-SNAPSHOT</version>
-		
+		<!-- 0.1.0-SN #5 -->
 	</parent>
 	<artifactId>slag-mail-app</artifactId>
 	<properties>
