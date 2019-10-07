@@ -13,5 +13,9 @@ public class MailStore {
 	public MailFolder getInboxFolder() {
 		return new MailFolder(store, "INBOX");
 	}
+	
+	public MailFolder getFolder(String folderName) {
+		return new MailFolder(store, folderName);
+	}
 
 }
