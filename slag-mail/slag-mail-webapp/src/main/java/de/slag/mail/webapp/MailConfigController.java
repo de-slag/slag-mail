@@ -5,10 +5,10 @@ import javax.faces.bean.SessionScoped;
 
 @ManagedBean
 @SessionScoped
-public class MailController {
+public class MailConfigController {
 
 	public String getState() {
-		return "mailController";
+		return "mailConfigController";
 	}
 
 	
