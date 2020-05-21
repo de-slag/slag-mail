@@ -18,7 +18,21 @@
 <h:body>
 	<h:link value="Index page" outcome="index" />
 	<h:form>
-		<h:outputLabel value="#{pc.state}" />
+		<p:dataTable var="entry" value="#{pc.configurationEntries}">
+			<p:column headerText="Key">
+				<h:outputText value="#{entry.key}" />
+			</p:column>
+
+			<p:column headerText="Value">
+				<h:outputText value="#{entry.value}" />
+			</p:column>
+		</p:dataTable>
+		<p:inputText id="input-key" value="#{pc.key}" />
+		<p:inputText id="input-value" value="#{pc.value}" />
+		<p:commandButton value="Save Key+Value" id="save-key-value"
+			action="#{pc.saveKeyValue}" style="margin-right:20px;" ajax="false" />
+
 	</h:form>
+	<h:outputLabel value="#{pc.state}" />
 </h:body>
 </html>
