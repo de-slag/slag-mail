@@ -10,5 +10,6 @@
 
 	<modules>
 		<module>slag-mail-app</module>
+		<module>slag-mail-webapp</module>
 	</modules>
 </project>
