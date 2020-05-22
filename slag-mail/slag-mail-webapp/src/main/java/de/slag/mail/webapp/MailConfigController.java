@@ -12,7 +12,9 @@ import org.apache.commons.lang.StringUtils;
 
 @ManagedBean
 @SessionScoped
-public class MailConfigController {
+public class MailConfigController extends PageController {
+
+	private final List<String> stateMessages = new ArrayList<>();
 
 	private String key;
 
@@ -24,7 +26,6 @@ public class MailConfigController {
 
 	@PostConstruct
 	public void init() {
-
 		resetConfig();
 	}
 
@@ -42,10 +43,6 @@ public class MailConfigController {
 
 	public void setValue(String value) {
 		this.value = value;
-	}
-
-	public String getState() {
-		return "nix";
 	}
 
 	public List<ConfigEntry> getConfigurationEntries() {
@@ -66,7 +63,8 @@ public class MailConfigController {
 	}
 
 	public void applyConfiguration() {
-
+		stateMessages.clear();
+		stateMessages.add("configuration applied");
 	}
 
 	public void resetConfig() {
@@ -102,6 +100,11 @@ public class MailConfigController {
 			this.value = value;
 		}
 
+	}
+
+	@Override
+	public List<String> getStateMessages() {
+		return stateMessages;
 	}
 
 }
