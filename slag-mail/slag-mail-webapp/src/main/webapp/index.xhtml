@@ -18,8 +18,16 @@
 <h:body>
 	<h:link value="Config page" outcome="config" />
 	<h:form>
-		<p:commandButton value="Submit" id="btn_submin"
-			action="#{pc.submit}" style="margin-right:20px;" ajax="false" />
+		<p:inputText id="login" value="#{pc.login}" />
+		<p:password id="password" value="#{pc.password}" />
+		<p:selectOneMenu id="application" value="#{pc.application}"
+			style="width:150px">
+			<f:selectItem itemLabel="Select Application" itemValue=""
+				noSelectionOption="true" />
+			<f:selectItems value="#{pc.applications}" />
+		</p:selectOneMenu>
+		<p:commandButton value="Submit" id="btn_submin" action="#{pc.submit}"
+			style="margin-right:20px;" ajax="false" />
 	</h:form>
 	<h:outputLabel value="#{pc.state}" />
 </h:body>

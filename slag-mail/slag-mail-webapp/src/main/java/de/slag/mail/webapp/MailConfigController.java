@@ -1,9 +1,7 @@
 package de.slag.mail.webapp;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
@@ -18,9 +16,9 @@ public class MailConfigController {
 
 	private String value;
 
-	private final Map<String, String> configuration = new HashMap<>();
-
 	private final List<ConfigEntry> configurationEntries = new ArrayList<>();
+
+	private MailConfigurationSupport mailConfigurationSupport = MailConfigurationSupport.getInstance();
 
 	@PostConstruct
 	public void init() {
@@ -52,7 +50,7 @@ public class MailConfigController {
 	}
 
 	public void saveKeyValue() {
-		configuration.put(key, value);
+		mailConfigurationSupport.put(key, value);
 		key = null;
 		value = null;
 		resetConfig();
@@ -60,12 +58,12 @@ public class MailConfigController {
 
 	public void resetConfig() {
 		configurationEntries.clear();
-		configurationEntries.addAll(configuration.keySet()
+		configurationEntries.addAll(mailConfigurationSupport.keySet()
 				.stream()
 				.map(key -> {
 					ConfigEntry configEntry = new ConfigEntry();
 					configEntry.setKey(key);
-					configEntry.setValue(configuration.get(key));
+					configEntry.setValue(mailConfigurationSupport.get(key));
 					return configEntry;
 				})
 				.collect(Collectors.toList()));
