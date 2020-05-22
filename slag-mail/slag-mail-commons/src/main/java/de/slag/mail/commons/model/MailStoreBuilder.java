@@ -53,6 +53,7 @@ public class MailStoreBuilder implements Builder<MailStore> {
 		return this;
 	}
 
+	@Override
 	public MailStore build() {
 		LOG.info(this);
 		Objects.requireNonNull(session, "session not setted");
