@@ -19,6 +19,8 @@ public class MailController {
 
 	private String login;
 
+	private String host;
+
 	private String application;
 
 	private MailConfigurationSupport mailConfigurationSupport = MailConfigurationSupport.getInstance();
@@ -27,7 +29,7 @@ public class MailController {
 		return String.join("\n", state);
 	}
 
-	public void submit() {
+	public void submit() throws Exception {
 		state.clear();
 		state.add(LocalDateTime.now()
 				.toString());
@@ -47,6 +49,12 @@ public class MailController {
 		}
 
 		state.add(String.format("apply: '%s'", application));
+
+		final MailApplicationRunner mailApplicationRunner = new MailApplicationRunner(password, login, application,
+				host);
+		mailApplicationRunner.run();
+
+		state.add(mailApplicationRunner.getResult());
 		application = null;
 	}
 
@@ -76,5 +84,13 @@ public class MailController {
 
 	public void setApplication(String application) {
 		this.application = application;
+	}
+
+	public String getHost() {
+		return host;
+	}
+
+	public void setHost(String host) {
+		this.host = host;
 	}
 }

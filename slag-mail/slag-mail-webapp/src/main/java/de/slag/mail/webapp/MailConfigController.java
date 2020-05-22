@@ -24,6 +24,7 @@ public class MailConfigController {
 
 	@PostConstruct
 	public void init() {
+
 		resetConfig();
 	}
 
@@ -62,6 +63,10 @@ public class MailConfigController {
 		key = null;
 		value = null;
 		resetConfig();
+	}
+
+	public void applyConfiguration() {
+
 	}
 
 	public void resetConfig() {

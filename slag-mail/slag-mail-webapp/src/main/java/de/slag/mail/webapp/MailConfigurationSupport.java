@@ -7,6 +7,8 @@ import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import de.slag.mail.commons.MailApplicationSupport;
+
 public class MailConfigurationSupport {
 
 	private static MailConfigurationSupport instance;
@@ -14,7 +16,8 @@ public class MailConfigurationSupport {
 	private Map<String, String> configurations = new HashMap<>();
 
 	private MailConfigurationSupport() {
-
+		MailApplicationSupport.getApplicationNames()
+				.forEach(name -> configurations.put("application." + name, name));
 	}
 
 	public static MailConfigurationSupport getInstance() {
