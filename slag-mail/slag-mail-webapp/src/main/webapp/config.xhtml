@@ -29,8 +29,10 @@
 		</p:dataTable>
 		<p:inputText id="input-key" value="#{pc.key}" />
 		<p:inputText id="input-value" value="#{pc.value}" />
-		<p:commandButton value="Save Key+Value" id="save-key-value"
+		<p:commandButton value="SAVE KEY+VALUE" id="save-key-value"
 			action="#{pc.saveKeyValue}" style="margin-right:20px;" ajax="false" />
+		<p:commandButton value="APPLY CONFIGURATION" id="apply_configuration"
+			action="#{pc.applyConfiguration}" style="margin-right:20px;" ajax="false" />
 
 	</h:form>
 	<h:outputLabel value="#{pc.state}" />
