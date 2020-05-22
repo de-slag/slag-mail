@@ -1,4 +1,4 @@
-package de.slag.mail.model;
+package de.slag.mail.commons.model;
 
 import javax.mail.Store;
 

@@ -10,10 +10,10 @@ import javax.mail.Message;
 
 import de.slag.mail.MailMessageMoveUtils;
 import de.slag.mail.MailOperation;
+import de.slag.mail.commons.model.MailFolder;
+import de.slag.mail.commons.model.MailMessage;
+import de.slag.mail.commons.model.MailStore;
 import de.slag.mail.filters.SpamFilter;
-import de.slag.mail.model.MailFolder;
-import de.slag.mail.model.MailMessage;
-import de.slag.mail.model.MailStore;
 
 public class MailMoveSpamOperation extends MailOperation<String> {
 

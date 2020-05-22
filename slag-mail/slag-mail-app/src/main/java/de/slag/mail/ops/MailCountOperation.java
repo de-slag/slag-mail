@@ -3,9 +3,9 @@ package de.slag.mail.ops;
 import java.util.function.Predicate;
 
 import de.slag.mail.MailOperation;
-import de.slag.mail.model.MailFolder;
-import de.slag.mail.model.MailMessage;
-import de.slag.mail.model.MailStore;
+import de.slag.mail.commons.model.MailFolder;
+import de.slag.mail.commons.model.MailMessage;
+import de.slag.mail.commons.model.MailStore;
 
 public class MailCountOperation extends MailOperation<String> {
 

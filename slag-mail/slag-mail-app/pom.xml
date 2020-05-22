@@ -6,7 +6,7 @@
 		<groupId>de.slag.mail</groupId>
 		<artifactId>slag-mail</artifactId>
 		<version>0.2.0-SNAPSHOT</version>
-		
+
 	</parent>
 	<artifactId>slag-mail-app</artifactId>
 	<properties>
@@ -14,6 +14,12 @@
 		<maven.compiler.source>1.8</maven.compiler.source>
 	</properties>
 	<dependencies>
+		<dependency>
+			<groupId>de.slag.mail</groupId>
+			<artifactId>slag-mail-commons</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
 		<dependency>
 			<groupId>javax.mail</groupId>
 			<artifactId>mail</artifactId>

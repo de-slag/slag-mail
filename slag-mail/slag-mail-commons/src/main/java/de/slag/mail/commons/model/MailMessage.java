@@ -1,11 +1,11 @@
-package de.slag.mail.model;
+package de.slag.mail.commons.model;
 
 import java.util.Date;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
 
-import de.slag.mail.MailException;
+import de.slag.mail.commons.MailException;
 
 public class MailMessage {
 	

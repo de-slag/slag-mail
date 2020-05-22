@@ -10,10 +10,10 @@ import org.apache.commons.logging.LogFactory;
 
 import de.slag.mail.MailMessageMoveUtils;
 import de.slag.mail.MailOperation;
+import de.slag.mail.commons.model.MailFolder;
+import de.slag.mail.commons.model.MailMessage;
+import de.slag.mail.commons.model.MailStore;
 import de.slag.mail.filters.TestFilter;
-import de.slag.mail.model.MailFolder;
-import de.slag.mail.model.MailMessage;
-import de.slag.mail.model.MailStore;
 
 public class MailTestOperation extends MailOperation<String> {
 

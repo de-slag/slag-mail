@@ -7,8 +7,8 @@ import javax.mail.Session;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import de.slag.mail.model.MailStore;
-import de.slag.mail.model.MailStoreBuilder;
+import de.slag.mail.commons.model.MailStore;
+import de.slag.mail.commons.model.MailStoreBuilder;
 import de.slag.mail.reporter.Reporter;
 import de.slag.mail.reporter.ReporterBuilder;
 

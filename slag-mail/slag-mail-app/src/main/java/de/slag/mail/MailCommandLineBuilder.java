@@ -7,6 +7,8 @@ import org.apache.commons.cli.ParseException;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.Builder;
 
+import de.slag.mail.commons.MailException;
+
 public class MailCommandLineBuilder implements Builder<MailCommandLine> {
 
 	private static final String CONFIG_FILE = "c";

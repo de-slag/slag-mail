@@ -5,7 +5,7 @@ import java.io.File;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.Builder;
 
-import de.slag.mail.MailException;
+import de.slag.mail.commons.MailException;
 
 public class ReporterBuilder implements Builder<Reporter> {
 

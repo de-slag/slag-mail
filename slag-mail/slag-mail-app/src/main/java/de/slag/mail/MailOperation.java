@@ -5,7 +5,8 @@ import java.util.concurrent.Callable;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import de.slag.mail.model.MailStore;
+import de.slag.mail.commons.MailException;
+import de.slag.mail.commons.model.MailStore;
 
 public abstract class MailOperation<V> implements Callable<V> {
 

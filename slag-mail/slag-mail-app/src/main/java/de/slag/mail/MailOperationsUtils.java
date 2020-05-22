@@ -3,7 +3,8 @@ package de.slag.mail;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
-import de.slag.mail.model.MailStore;
+import de.slag.mail.commons.MailException;
+import de.slag.mail.commons.model.MailStore;
 import de.slag.mail.ops.MailCountOperation;
 import de.slag.mail.ops.MailMoveSpamOperation;
 import de.slag.mail.ops.MailSpamCountOperation;

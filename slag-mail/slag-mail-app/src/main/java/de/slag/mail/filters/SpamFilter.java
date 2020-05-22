@@ -4,7 +4,7 @@ import java.util.function.Predicate;
 
 import org.apache.commons.lang3.StringUtils;
 
-import de.slag.mail.model.MailMessage;
+import de.slag.mail.commons.model.MailMessage;
 
 public class SpamFilter implements Predicate<MailMessage>{
 

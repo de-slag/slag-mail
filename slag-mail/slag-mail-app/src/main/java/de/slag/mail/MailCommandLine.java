@@ -2,6 +2,8 @@ package de.slag.mail;
 
 import java.io.File;
 
+import de.slag.mail.commons.MailException;
+
 public interface MailCommandLine {
 
 	String getConfigFileName();

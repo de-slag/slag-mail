@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import de.slag.mail.MailException;
+import de.slag.mail.commons.MailException;
 
 public class FileReporter implements Reporter {
 

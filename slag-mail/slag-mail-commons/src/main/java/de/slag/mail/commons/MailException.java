@@ -1,4 +1,4 @@
-package de.slag.mail;
+package de.slag.mail.commons;
 
 public class MailException extends RuntimeException {
 	

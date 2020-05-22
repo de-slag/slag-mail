@@ -1,4 +1,4 @@
-package de.slag.mail.model;
+package de.slag.mail.commons.model;
 
 import java.util.Objects;
 
@@ -12,7 +12,7 @@ import org.apache.commons.lang3.builder.Builder;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import de.slag.mail.MailException;
+import de.slag.mail.commons.MailException;
 
 public class MailStoreBuilder implements Builder<MailStore> {
 
@@ -53,11 +53,10 @@ public class MailStoreBuilder implements Builder<MailStore> {
 		return this;
 	}
 
-	@Override
 	public MailStore build() {
 		LOG.info(this);
 		Objects.requireNonNull(session, "session not setted");
-		
+
 		Objects.requireNonNull(host, "host not setted");
 		Objects.requireNonNull(user, "user not setted");
 		Objects.requireNonNull(password, "password not setted");

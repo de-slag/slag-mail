@@ -6,7 +6,7 @@ import java.io.IOException;
 import org.junit.Before;
 import org.junit.Test;
 
-import de.slag.mail.MailException;
+import de.slag.mail.commons.MailException;
 
 public class ReporterBuilderTest {
 

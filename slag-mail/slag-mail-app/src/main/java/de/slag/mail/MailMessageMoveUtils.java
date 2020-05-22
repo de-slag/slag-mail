@@ -3,12 +3,14 @@ package de.slag.mail;
 import java.util.Arrays;
 
 import javax.mail.Flags.Flag;
+
+import de.slag.mail.commons.MailException;
+import de.slag.mail.commons.model.MailFolder;
+import de.slag.mail.commons.model.MailMessage;
+
 import javax.mail.Folder;
 import javax.mail.Message;
 import javax.mail.MessagingException;
-
-import de.slag.mail.model.MailFolder;
-import de.slag.mail.model.MailMessage;
 
 public class MailMessageMoveUtils {
 
