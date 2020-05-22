@@ -18,7 +18,9 @@
 <h:body>
 	<h:link value="Config page" outcome="config" />
 	<h:form>
-		<h:outputLabel value="#{pc.state}" />
+		<p:commandButton value="Submit" id="btn_submin"
+			action="#{pc.submit}" style="margin-right:20px;" ajax="false" />
 	</h:form>
+	<h:outputLabel value="#{pc.state}" />
 </h:body>
 </html>

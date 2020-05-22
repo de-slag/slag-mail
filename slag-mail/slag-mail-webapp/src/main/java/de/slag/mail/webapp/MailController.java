@@ -1,5 +1,7 @@
 package de.slag.mail.webapp;
 
+import java.time.LocalDateTime;
+
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
@@ -7,9 +9,17 @@ import javax.faces.bean.SessionScoped;
 @SessionScoped
 public class MailController {
 
+	private String state;
+
 	public String getState() {
-		return "mailController";
+		return state;
 	}
 
-	
+	public void submit() {
+		state = LocalDateTime.now()
+				.toString();
+
+		state += "\nnothing to do";
+	}
+
 }
