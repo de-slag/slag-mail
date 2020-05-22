@@ -8,6 +8,8 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
+import org.apache.commons.lang.StringUtils;
+
 @ManagedBean
 @SessionScoped
 public class MailConfigController {
@@ -50,7 +52,13 @@ public class MailConfigController {
 	}
 
 	public void saveKeyValue() {
-		mailConfigurationSupport.put(key, value);
+		if (StringUtils.isEmpty(value)) {
+			mailConfigurationSupport.remove(key);
+
+		} else {
+			mailConfigurationSupport.put(key, value);
+		}
+
 		key = null;
 		value = null;
 		resetConfig();

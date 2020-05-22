@@ -47,6 +47,7 @@ public class MailController {
 		}
 
 		state.add(String.format("apply: '%s'", application));
+		application = null;
 	}
 
 	public String getPassword() {

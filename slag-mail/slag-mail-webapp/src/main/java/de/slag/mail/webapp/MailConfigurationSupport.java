@@ -44,4 +44,8 @@ public class MailConfigurationSupport {
 				.collect(Collectors.toList());
 	}
 
+	public String remove(String key) {
+		return configurations.remove(key);
+	}
+
 }
