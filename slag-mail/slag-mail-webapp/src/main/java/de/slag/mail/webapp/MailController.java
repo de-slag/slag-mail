@@ -3,11 +3,14 @@ package de.slag.mail.webapp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
 import org.apache.commons.lang.StringUtils;
+
+import de.slag.mail.webapp.config.MailConfigurationSupport;
 
 @ManagedBean
 @SessionScoped
@@ -22,6 +25,8 @@ public class MailController extends PageController {
 	private String host;
 
 	private String application;
+
+	private String filter;
 
 	private MailConfigurationSupport mailConfigurationSupport = MailConfigurationSupport.getInstance();
 
@@ -74,6 +79,16 @@ public class MailController extends PageController {
 		return mailConfigurationSupport.getAll(key -> key.startsWith("application."));
 	}
 
+	public List<String> getFilters() {
+		final String filterPrefix = "filter.";
+		return mailConfigurationSupport.findBy(entry -> entry.getKey()
+				.startsWith(filterPrefix))
+				.stream()
+				.map(entry -> entry.getKey()
+						.substring(filterPrefix.length()))
+				.collect(Collectors.toList());
+	}
+
 	public String getApplication() {
 		return application;
 	}
@@ -93,5 +108,13 @@ public class MailController extends PageController {
 	@Override
 	public List<String> getStateMessages() {
 		return stateMessages;
+	}
+
+	public String getFilter() {
+		return filter;
+	}
+
+	public void setFilter(String filter) {
+		this.filter = filter;
 	}
 }

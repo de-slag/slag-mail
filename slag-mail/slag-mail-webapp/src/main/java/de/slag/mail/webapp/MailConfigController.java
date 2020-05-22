@@ -4,15 +4,20 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import de.slag.mail.webapp.config.MailConfigurationSupport;
 
 @ManagedBean
 @SessionScoped
 public class MailConfigController extends PageController {
+
+	private static final Log LOG = LogFactory.getLog(MailConfigController.class);
 
 	private final List<String> stateMessages = new ArrayList<>();
 
@@ -20,14 +25,7 @@ public class MailConfigController extends PageController {
 
 	private String value;
 
-	private final List<ConfigEntry> configurationEntries = new ArrayList<>();
-
 	private MailConfigurationSupport mailConfigurationSupport = MailConfigurationSupport.getInstance();
-
-	@PostConstruct
-	public void init() {
-		resetConfig();
-	}
 
 	public String getKey() {
 		return key;
@@ -46,30 +44,7 @@ public class MailConfigController extends PageController {
 	}
 
 	public List<ConfigEntry> getConfigurationEntries() {
-		return configurationEntries;
-	}
-
-	public void saveKeyValue() {
-		if (StringUtils.isEmpty(value)) {
-			mailConfigurationSupport.remove(key);
-
-		} else {
-			mailConfigurationSupport.put(key, value);
-		}
-
-		key = null;
-		value = null;
-		resetConfig();
-	}
-
-	public void applyConfiguration() {
-		stateMessages.clear();
-		stateMessages.add("configuration applied");
-	}
-
-	public void resetConfig() {
-		configurationEntries.clear();
-		configurationEntries.addAll(mailConfigurationSupport.keySet()
+		return mailConfigurationSupport.keySet()
 				.stream()
 				.map(key -> {
 					ConfigEntry configEntry = new ConfigEntry();
@@ -77,7 +52,20 @@ public class MailConfigController extends PageController {
 					configEntry.setValue(mailConfigurationSupport.get(key));
 					return configEntry;
 				})
-				.collect(Collectors.toList()));
+				.collect(Collectors.toList());
+	}
+
+	public void saveKeyValue() {
+		stateMessages.clear();
+		if (StringUtils.isEmpty(value)) {
+			mailConfigurationSupport.remove(key);
+		} else {
+			mailConfigurationSupport.put(key, value);
+			stateMessages.add("added: " + key + "=" + value);
+		}
+
+		key = null;
+		value = null;
 	}
 
 	public class ConfigEntry {
@@ -106,5 +94,4 @@ public class MailConfigController extends PageController {
 	public List<String> getStateMessages() {
 		return stateMessages;
 	}
-
 }

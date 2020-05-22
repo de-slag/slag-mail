@@ -1,4 +1,4 @@
-package de.slag.mail.webapp;
+package de.slag.mail.webapp.config;
 
 import java.util.HashMap;
 import java.util.List;
@@ -39,6 +39,12 @@ public class MailConfigurationSupport {
 		return configurations.get(key);
 	}
 
+	public List<MailConfigurationEntry> findBy(Predicate<MailConfigurationEntry> filter) {
+		return getAll().stream()
+				.filter(filter)
+				.collect(Collectors.toList());
+	}
+
 	public List<String> getAll(Predicate<String> keyFilter) {
 		return configurations.keySet()
 				.stream()
@@ -47,8 +53,25 @@ public class MailConfigurationSupport {
 				.collect(Collectors.toList());
 	}
 
+	public List<MailConfigurationEntry> getAll() {
+		return configurations.keySet()
+				.stream()
+				.map(key -> {
+					final MailConfigurationEntry mailConfigurationEntry = new MailConfigurationEntry();
+
+					mailConfigurationEntry.setKey(key);
+					mailConfigurationEntry.setValue(configurations.get(key));
+
+					return mailConfigurationEntry;
+				})
+				.collect(Collectors.toList());
+	}
+
 	public String remove(String key) {
 		return configurations.remove(key);
 	}
 
+	public void clear() {
+		configurations.clear();
+	}
 }

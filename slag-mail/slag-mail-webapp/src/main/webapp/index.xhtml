@@ -18,15 +18,38 @@
 <h:body>
 	<h:link value="Config page" outcome="config" />
 	<h:form>
-		<p:inputText id="host" value="#{pc.host}" />
-		<p:inputText id="login" value="#{pc.login}" />
-		<p:password id="password" value="#{pc.password}" />
-		<p:selectOneMenu id="application" value="#{pc.application}"
-			style="width:150px">
-			<f:selectItem itemLabel="Select Application" itemValue=""
-				noSelectionOption="true" />
-			<f:selectItems value="#{pc.applications}" />
-		</p:selectOneMenu>
+		<div>
+			<h:outputText value="Host" />
+			<p:inputText id="host" value="#{pc.host}" />
+		</div>
+		<div>
+			<h:outputText value="Login/user" />
+			<p:inputText id="login" value="#{pc.login}" />
+		</div>
+		<div>
+			<h:outputText value="Password" />
+			<p:password id="password" value="#{pc.password}" />
+		</div>
+		<div>
+			<h:outputText value="Application" />
+			<p:selectOneMenu id="application" value="#{pc.application}"
+				style="width:150px">
+				<f:selectItem itemLabel="SELECT APPLICATION" itemValue=""
+					noSelectionOption="true" />
+				<f:selectItems value="#{pc.applications}" />
+			</p:selectOneMenu>
+
+		</div>
+		<div>
+			<h:outputText value="Filter" />
+			<p:selectOneMenu id="filter" value="#{pc.filter}" style="width:150px">
+				<f:selectItem itemLabel="SELECT FILTER" itemValue=""
+					noSelectionOption="true" />
+				<f:selectItems value="#{pc.filters}" />
+			</p:selectOneMenu>
+		</div>
+
+
 		<p:commandButton value="Submit" id="btn_submin" action="#{pc.submit}"
 			style="margin-right:20px;" ajax="false" />
 	</h:form>
