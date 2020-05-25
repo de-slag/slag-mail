@@ -10,4 +10,9 @@ public abstract class PageController {
 
 	abstract List<String> getStateMessages();
 
+	public String getAppVersion() {
+		return PageController.class.getPackage()
+				.getImplementationVersion();
+	}
+
 }
