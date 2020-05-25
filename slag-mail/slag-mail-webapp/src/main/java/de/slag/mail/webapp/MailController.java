@@ -49,7 +49,12 @@ public class MailController extends PageController {
 			return;
 		}
 
-		stateMessages.add(String.format("apply: '%s'", application));
+		if (StringUtils.isEmpty(filter)) {
+			stateMessages.add("'filter' not setted");
+			return;
+		}
+
+		stateMessages.add(String.format("apply: '%s' with filter '%s'", application, filter));
 
 		final MailApplicationRunner mailApplicationRunner = new MailApplicationRunner(password, login, application,
 				host);
@@ -57,6 +62,7 @@ public class MailController extends PageController {
 
 		stateMessages.add(mailApplicationRunner.getResult());
 		application = null;
+		filter = null;
 	}
 
 	public String getPassword() {

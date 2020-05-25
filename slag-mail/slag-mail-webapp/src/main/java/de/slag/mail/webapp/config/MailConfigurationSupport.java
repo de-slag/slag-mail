@@ -8,6 +8,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import de.slag.mail.commons.MailApplicationSupport;
+import de.slag.mail.commons.MailFilterSupport;
 
 public class MailConfigurationSupport {
 
@@ -18,6 +19,8 @@ public class MailConfigurationSupport {
 	private MailConfigurationSupport() {
 		MailApplicationSupport.getApplicationNames()
 				.forEach(name -> configurations.put("application." + name, name));
+		MailFilterSupport.getFilterNames()
+				.forEach(name -> configurations.put("filter." + name, name));
 	}
 
 	public static MailConfigurationSupport getInstance() {
