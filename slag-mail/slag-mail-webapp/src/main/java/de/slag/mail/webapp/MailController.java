@@ -56,8 +56,10 @@ public class MailController extends PageController {
 
 		stateMessages.add(String.format("apply: '%s' with filter '%s'", application, filter));
 
+		String filterCustomization = mailConfigurationSupport.get("filter." + filter);
+
 		final MailApplicationRunner mailApplicationRunner = new MailApplicationRunner(password, login, application,
-				host);
+				host, filter, filterCustomization);
 		mailApplicationRunner.run();
 
 		stateMessages.add(mailApplicationRunner.getResult());
