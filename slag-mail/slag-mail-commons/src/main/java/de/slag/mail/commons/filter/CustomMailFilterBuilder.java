@@ -66,7 +66,7 @@ public class CustomMailFilterBuilder implements Builder<MailFilter> {
 				if ("SUBJECT".equals(name)) {
 					return m.getSubject();
 				}
-				throw new MailException("not supported");
+				throw new MailException("not supported mail message property: " + name);
 			}
 		};
 
