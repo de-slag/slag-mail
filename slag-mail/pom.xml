@@ -5,12 +5,14 @@
 
 	<groupId>de.slag.mail</groupId>
 	<artifactId>slag-mail</artifactId>
-	<version>0.2.0-SNAPSHOT</version>
+	<version>0.5.0-SNAPSHOT</version>
+
 	<packaging>pom</packaging>
 
 	<modules>
 		<module>slag-mail-app</module>
 		<module>slag-mail-webapp</module>
 		<module>slag-mail-commons</module>
+		<module>slag-mail-backend</module>
 	</modules>
 </project>
