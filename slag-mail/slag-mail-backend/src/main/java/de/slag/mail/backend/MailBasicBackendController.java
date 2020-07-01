@@ -11,6 +11,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -30,24 +31,28 @@ public class MailBasicBackendController implements BasicBackendController {
 	public Token getLogin(@RequestParam(required = false) String username,
 			@RequestParam(required = false) String password) {
 		Token token = new Token();
-		token.setTokenString(String.valueOf(System.currentTimeMillis() * -1));
+		String tokenString = String.valueOf(System.currentTimeMillis() * -1);
+		propertyMap.put(tokenString, new Properties());
+		token.setTokenString(tokenString);
 		return token;
 	}
 
 	@Override
 	@GetMapping(path = "/rundefault", produces = MediaType.APPLICATION_JSON)
-	public String runDefault(String token) {
-		return propertyMap.get(token) + "\nall done";
+	public String runDefault(@RequestParam String token) {
+		if (!propertyMap.containsKey(token)) {
+			return "no configuration found";
+		}
+		final Properties properties = propertyMap.get(token);
+		return properties + "\nall done";
 	}
 
 	@Override
 	@PutMapping(path = "/configproperty", produces = MediaType.TEXT_PLAIN)
-	public Response putConfigProperty(String token, ConfigProperty configProperty) {
+	public Response putConfigProperty(@RequestParam String token, @RequestBody ConfigProperty configProperty) {
 		Properties properties = propertyMap.get(token);
 		if (properties == null) {
-			return Response.serverError()
-					.entity("properties not found")
-					.build();
+			throw new RuntimeException("properties not found");
 		}
 		String value = configProperty.getValue();
 		String key = configProperty.getKey();
