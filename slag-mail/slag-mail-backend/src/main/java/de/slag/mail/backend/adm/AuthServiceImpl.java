@@ -31,7 +31,6 @@ public class AuthServiceImpl implements AuthService {
 	public void setUp() {
 		users.addAll(setUpUsers());
 		LOG.info("users: " + users);
-
 	}
 
 	@Override
