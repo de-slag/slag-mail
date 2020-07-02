@@ -1,8 +1,6 @@
 package de.slag.mail.backend;
 
-import java.util.HashMap;
 import java.util.Map;
-import java.util.Properties;
 
 import javax.annotation.Resource;
 import javax.ws.rs.core.MediaType;
@@ -19,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import de.slag.basic.backend.api.BasicBackendController;
 import de.slag.basic.model.ConfigProperty;
 import de.slag.basic.model.Token;
-import de.slag.mail.backend.adm.AdmConfigService;
+import de.slag.mail.backend.adm.AdmConfigAdvancedService;
 import de.slag.mail.backend.adm.AuthService;
 
 @RestController
@@ -27,10 +25,8 @@ public class MailBasicBackendController implements BasicBackendController {
 
 	private static final Log LOG = LogFactory.getLog(MailBasicBackendController.class);
 
-	private Map<String, Properties> propertyMap = new HashMap<>();
-
 	@Resource
-	private AdmConfigService admConfigService;
+	private AdmConfigAdvancedService admConfigAdvancedService;
 
 	@Resource
 	private AuthService authService;
@@ -42,7 +38,6 @@ public class MailBasicBackendController implements BasicBackendController {
 
 		Token token = new Token();
 		token.setTokenString(authService.getToken(username, password));
-		propertyMap.put(username, new Properties());
 		return token;
 	}
 
@@ -53,10 +48,8 @@ public class MailBasicBackendController implements BasicBackendController {
 			return "token invalid";
 		}
 		final String username = authService.getUsername(token);
-		if (!propertyMap.containsKey(username)) {
-			return "no configuration found";
-		}
-		final Properties properties = propertyMap.get(username);
+		Map<String, String> properties = admConfigAdvancedService.getProperties(username + "#");
+
 		return properties + "\nall done";
 	}
 
@@ -68,13 +61,11 @@ public class MailBasicBackendController implements BasicBackendController {
 		}
 		final String username = authService.getUsername(token);
 
-		Properties properties = propertyMap.get(username);
-		if (properties == null) {
-			throw new RuntimeException("properties not found");
-		}
 		String value = configProperty.getValue();
 		String key = configProperty.getKey();
-		properties.put(key, value);
+
+		admConfigAdvancedService.putProperty(String.format("%s#%s", username, key), value);
+
 		LOG.info(String.format("putted property for token: %s, %s, %s", username, key, value));
 		return null;
 	}

@@ -52,4 +52,9 @@ public class AdmConfigServiceImpl implements AdmConfigAdvancedService, AdmConfig
 		return selectedProperties;
 	}
 
+	@Override
+	public void putProperty(String key, String value) {
+		properties.put(key, value);
+	}
+
 }
