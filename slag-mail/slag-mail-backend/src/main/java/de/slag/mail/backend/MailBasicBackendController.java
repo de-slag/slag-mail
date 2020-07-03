@@ -1,5 +1,7 @@
 package de.slag.mail.backend;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -19,6 +21,7 @@ import de.slag.basic.model.ConfigProperty;
 import de.slag.basic.model.Token;
 import de.slag.mail.backend.adm.AdmConfigAdvancedService;
 import de.slag.mail.backend.adm.AuthService;
+import de.slag.mail.commons2.filter.MailFilter;
 
 @RestController
 public class MailBasicBackendController implements BasicBackendController {
@@ -30,6 +33,9 @@ public class MailBasicBackendController implements BasicBackendController {
 
 	@Resource
 	private AuthService authService;
+
+	@Resource
+	private MailFilterService mailFilterService;
 
 	@Override
 	@GetMapping(path = "/login", produces = MediaType.APPLICATION_JSON)
@@ -48,9 +54,15 @@ public class MailBasicBackendController implements BasicBackendController {
 			return "token invalid";
 		}
 		final String username = authService.getUsername(token);
-		Map<String, String> properties = admConfigAdvancedService.getProperties(username + "#");
 
-		return properties + "\nall done";
+		Collection<String> result = new ArrayList<>();
+		final Collection<MailFilter> createMailFilters = mailFilterService.createMailFilters(username);
+		result.add(createMailFilters.size() + " filters created");
+		Map<String, String> properties = admConfigAdvancedService.getProperties(username + "#");
+		result.add(properties.toString());
+		result.add("all done");
+
+		return String.join("\n", result);
 	}
 
 	@Override
