@@ -2,7 +2,7 @@ package de.slag.mail.commons2.model;
 
 import java.time.LocalDateTime;
 
-public interface MailPropertiesSupport {
+public interface MessagePropertiesProvideSupport {
 
 	String getSubject();
 

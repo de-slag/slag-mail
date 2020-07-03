@@ -3,12 +3,16 @@ package de.slag.mail.commons2.filter;
 import java.time.LocalDateTime;
 
 import org.apache.commons.lang3.builder.Builder;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import de.slag.mail.commons2.filter.MailFilter.Field;
 import de.slag.mail.commons2.filter.MailFilter.Operator;
-import de.slag.mail.commons2.model.MailPropertiesSupport;
+import de.slag.mail.commons2.model.MessagePropertiesProvideSupport;
 
 public class MailFilterBuilder implements Builder<MailFilter> {
+
+	private static final Log LOG = LogFactory.getLog(MailFilterBuilder.class);
 
 	private Field field;
 
@@ -43,18 +47,23 @@ public class MailFilterBuilder implements Builder<MailFilter> {
 		return new MailFilter() {
 
 			@Override
-			public boolean test(MailPropertiesSupport t) {
+			public boolean test(MessagePropertiesProvideSupport t) {
+				if (field == null) {
+					LOG.warn(String.format("field not setted, do not filter", field));
+					return true;
+				}
 				switch (field) {
 				case SUBJECT:
 					return filterSubject(t);
 				case SENT_DATE:
 					return filterSentDate(t);
 				default:
-					throw new RuntimeException("not supported: " + field);
+					LOG.warn(String.format("field '%s' not supported, do not filter", field));
+					return true;
 				}
 			}
 
-			private boolean filterSentDate(MailPropertiesSupport t) {
+			private boolean filterSentDate(MessagePropertiesProvideSupport t) {
 				return filterDate(t.getSentDate());
 			}
 
@@ -70,7 +79,7 @@ public class MailFilterBuilder implements Builder<MailFilter> {
 				}
 			}
 
-			private boolean filterSubject(MailPropertiesSupport t) {
+			private boolean filterSubject(MessagePropertiesProvideSupport t) {
 				return filterString(t.getSubject());
 			}
 

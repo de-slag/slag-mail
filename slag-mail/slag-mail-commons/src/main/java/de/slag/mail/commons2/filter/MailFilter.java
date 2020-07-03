@@ -2,9 +2,9 @@ package de.slag.mail.commons2.filter;
 
 import java.util.function.Predicate;
 
-import de.slag.mail.commons2.model.MailPropertiesSupport;
+import de.slag.mail.commons2.model.MessagePropertiesProvideSupport;
 
-public interface MailFilter extends Predicate<MailPropertiesSupport> {
+public interface MailFilter extends Predicate<MessagePropertiesProvideSupport> {
 
 	String getName();
 
