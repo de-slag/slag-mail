@@ -1,11 +1,11 @@
-package de.slag.mail.backend.model;
+package de.slag.mail.backend.filter;
 
 import java.util.Date;
 
 import org.apache.commons.lang3.builder.Builder;
 
-import de.slag.mail.backend.model.MailFilter.Field;
-import de.slag.mail.backend.model.MailFilter.Operator;
+import de.slag.mail.backend.filter.MailFilter.Field;
+import de.slag.mail.backend.filter.MailFilter.Operator;
 import de.slag.mail.commons.model.MailMessage;
 
 public class MailFilterBuilder implements Builder<MailFilter> {

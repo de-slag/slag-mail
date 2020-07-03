@@ -1,4 +1,4 @@
-package de.slag.mail.backend.model;
+package de.slag.mail.backend.filter;
 
 import java.util.function.Predicate;
 
