@@ -24,6 +24,32 @@ class MailFilterBuilderTest {
 	static Collection<MessagePropertiesProvideSupport> mails = new ArrayList<>();
 
 	@Test
+	void testFailsNoName() {
+		assertThrows(Exception.class, () -> mailFilterBuilder.withName(null)
+				.build());
+	}
+
+	@Test
+	void testFilterSentDateLower() {
+		MailFilter filter = mailFilterBuilder.withField(Field.SENT_DATE)
+				.withOperator(Operator.LOWER)
+				.withReferenceValue(LocalDate.of(2012, 05, 03)
+						.atStartOfDay())
+				.build();
+		assertEquals(3, applyFilter(filter).count());
+	}
+
+	@Test
+	void testFilterSentDateGreater() {
+		MailFilter filter = mailFilterBuilder.withField(Field.SENT_DATE)
+				.withOperator(Operator.GREATER)
+				.withReferenceValue(LocalDate.of(2012, 05, 02)
+						.atStartOfDay())
+				.build();
+		assertEquals(2, applyFilter(filter).count());
+	}
+
+	@Test
 	void testFailsFilterSentDateContains() {
 		assertThrows(Exception.class, () -> mails.stream()
 				.filter(mailFilterBuilder.withField(Field.SENT_DATE)
@@ -32,7 +58,6 @@ class MailFilterBuilderTest {
 								.atStartOfDay())
 						.build())
 				.count());
-
 	}
 
 	@Test
@@ -104,6 +129,7 @@ class MailFilterBuilderTest {
 	@BeforeEach
 	void setUpTestCase() {
 		mailFilterBuilder = new MailFilterBuilder();
+		mailFilterBuilder.withName("test-name");
 	}
 
 }

@@ -17,7 +17,11 @@ public interface MailFilter extends Predicate<MessagePropertiesProvideSupport> {
 	public enum Operator {
 		CONTAINS,
 
-		EQUALS
+		EQUALS,
+
+		GREATER,
+
+		LOWER
 	}
 
 }

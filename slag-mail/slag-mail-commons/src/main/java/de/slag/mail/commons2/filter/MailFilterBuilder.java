@@ -2,6 +2,7 @@ package de.slag.mail.commons2.filter;
 
 import java.time.LocalDateTime;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.Builder;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -44,6 +45,11 @@ public class MailFilterBuilder implements Builder<MailFilter> {
 
 	@Override
 	public MailFilter build() {
+
+		if (StringUtils.isEmpty(name)) {
+			throw new RuntimeException("no name setted");
+		}
+
 		return new MailFilter() {
 
 			@Override
@@ -68,14 +74,16 @@ public class MailFilterBuilder implements Builder<MailFilter> {
 			}
 
 			private boolean filterDate(final LocalDateTime sentDate) {
+				LocalDateTime referenceTimestamp = (LocalDateTime) referenceValue;
 				switch (operator) {
 				case EQUALS:
-					return sentDate.equals(referenceValue);
-				case CONTAINS:
-					throw new RuntimeException("not supported for type DATE: " + operator);
-
+					return sentDate.equals(referenceTimestamp);
+				case GREATER:
+					return sentDate.isAfter(referenceTimestamp);
+				case LOWER:
+					return sentDate.isBefore(referenceTimestamp);
 				default:
-					throw new RuntimeException("not supported: " + operator);
+					throw new RuntimeException("not supported for type DATE: " + operator);
 				}
 			}
 
@@ -90,7 +98,7 @@ public class MailFilterBuilder implements Builder<MailFilter> {
 				case EQUALS:
 					return string.equals(referenceValue);
 				default:
-					throw new RuntimeException("not supported: " + operator);
+					throw new RuntimeException("not supported for type STRING: " + operator);
 				}
 			}
 
