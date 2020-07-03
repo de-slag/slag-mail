@@ -1,12 +1,12 @@
-package de.slag.mail.backend.filter;
+package de.slag.mail.commons2.filter;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import org.apache.commons.lang3.builder.Builder;
 
-import de.slag.mail.backend.filter.MailFilter.Field;
-import de.slag.mail.backend.filter.MailFilter.Operator;
-import de.slag.mail.commons.model.MailMessage;
+import de.slag.mail.commons2.filter.MailFilter.Field;
+import de.slag.mail.commons2.filter.MailFilter.Operator;
+import de.slag.mail.commons2.model.MailPropertiesSupport;
 
 public class MailFilterBuilder implements Builder<MailFilter> {
 
@@ -43,7 +43,7 @@ public class MailFilterBuilder implements Builder<MailFilter> {
 		return new MailFilter() {
 
 			@Override
-			public boolean test(MailMessage t) {
+			public boolean test(MailPropertiesSupport t) {
 				switch (field) {
 				case SUBJECT:
 					return filterSubject(t);
@@ -54,11 +54,11 @@ public class MailFilterBuilder implements Builder<MailFilter> {
 				}
 			}
 
-			private boolean filterSentDate(MailMessage t) {
+			private boolean filterSentDate(MailPropertiesSupport t) {
 				return filterDate(t.getSentDate());
 			}
 
-			private boolean filterDate(final Date sentDate) {
+			private boolean filterDate(final LocalDateTime sentDate) {
 				switch (operator) {
 				case EQUALS:
 					return sentDate.equals(referenceValue);
@@ -70,7 +70,7 @@ public class MailFilterBuilder implements Builder<MailFilter> {
 				}
 			}
 
-			private boolean filterSubject(MailMessage t) {
+			private boolean filterSubject(MailPropertiesSupport t) {
 				return filterString(t.getSubject());
 			}
 
