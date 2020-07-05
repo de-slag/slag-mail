@@ -1,9 +1,10 @@
 package de.slag.mail.backend;
 
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Map;
-import java.util.Properties;
 
+import javax.annotation.Resource;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -18,46 +19,66 @@ import org.springframework.web.bind.annotation.RestController;
 import de.slag.basic.backend.api.BasicBackendController;
 import de.slag.basic.model.ConfigProperty;
 import de.slag.basic.model.Token;
+import de.slag.mail.backend.adm.AdmConfigAdvancedService;
+import de.slag.mail.backend.adm.AuthService;
+import de.slag.mail.commons2.filter.MailFilter;
 
 @RestController
 public class MailBasicBackendController implements BasicBackendController {
 
 	private static final Log LOG = LogFactory.getLog(MailBasicBackendController.class);
 
-	private Map<String, Properties> propertyMap = new HashMap<>();
+	@Resource
+	private AdmConfigAdvancedService admConfigAdvancedService;
+
+	@Resource
+	private AuthService authService;
+
+	@Resource
+	private MailFilterService mailFilterService;
 
 	@Override
 	@GetMapping(path = "/login", produces = MediaType.APPLICATION_JSON)
 	public Token getLogin(@RequestParam(required = false) String username,
 			@RequestParam(required = false) String password) {
+
 		Token token = new Token();
-		String tokenString = String.valueOf(System.currentTimeMillis() * -1);
-		propertyMap.put(tokenString, new Properties());
-		token.setTokenString(tokenString);
+		token.setTokenString(authService.getToken(username, password));
 		return token;
 	}
 
 	@Override
 	@GetMapping(path = "/rundefault", produces = MediaType.APPLICATION_JSON)
 	public String runDefault(@RequestParam String token) {
-		if (!propertyMap.containsKey(token)) {
-			return "no configuration found";
+		if (!authService.isValid(token)) {
+			return "token invalid";
 		}
-		final Properties properties = propertyMap.get(token);
-		return properties + "\nall done";
+		final String username = authService.getUsername(token);
+
+		Collection<String> result = new ArrayList<>();
+		final Collection<MailFilter> createMailFilters = mailFilterService.createMailFilters(username);
+		result.add(createMailFilters.size() + " filters created");
+		Map<String, String> properties = admConfigAdvancedService.getProperties(username + "#");
+		result.add(properties.toString());
+		result.add("all done");
+
+		return String.join("\n", result);
 	}
 
 	@Override
 	@PutMapping(path = "/configproperty", produces = MediaType.TEXT_PLAIN)
 	public Response putConfigProperty(@RequestParam String token, @RequestBody ConfigProperty configProperty) {
-		Properties properties = propertyMap.get(token);
-		if (properties == null) {
-			throw new RuntimeException("properties not found");
+		if (!authService.isValid(token)) {
+			throw new RuntimeException("token invalid");
 		}
+		final String username = authService.getUsername(token);
+
 		String value = configProperty.getValue();
 		String key = configProperty.getKey();
-		properties.put(key, value);
-		LOG.info(String.format("putted property for token: %s, %s, %s", token, key, value));
+
+		admConfigAdvancedService.putProperty(String.format("%s#%s", username, key), value);
+
+		LOG.info(String.format("putted property for token: %s, %s, %s", username, key, value));
 		return null;
 	}
 
