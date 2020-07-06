@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import de.slag.mail.backend.adm.AdmConfigAdvancedService;
 import de.slag.mail.backend.adm.AdmConfigPropertyUtils;
+import de.slag.mail.backend.filter.MessageFilterTemplate;
 import de.slag.mail.commons2.filter.MailFilter;
 import de.slag.mail.commons2.filter.MailFilter.Field;
 import de.slag.mail.commons2.filter.MailFilter.Operator;
@@ -33,7 +34,7 @@ public class MailFilterServiceImpl implements MailFilterService {
 		Map<String, String> properties = admConfigAdvancedService.getProperties(userFilterPrefix);
 		Collection<Long> filterIds = AdmConfigPropertyUtils.findIdsFor(userFilterPrefix, properties.keySet());
 
-		final List<FilterTemplate> filterTemplates = filterIds.stream()
+		final List<MessageFilterTemplate> filterTemplates = filterIds.stream()
 				.map(id -> {
 					String nameKey = String.format("%sfilter.%s.name", userPrefix, id);
 					String configKey = String.format("%sfilter.%s.config", userPrefix, id);
@@ -69,7 +70,8 @@ public class MailFilterServiceImpl implements MailFilterService {
 						throw new RuntimeException("not supported: " + field);
 					}
 
-					FilterTemplate filterTemplate = new FilterTemplate(filterName, field, operator, referenceValue);
+					MessageFilterTemplate filterTemplate = new MessageFilterTemplate(filterName, field, operator,
+							referenceValue);
 					return filterTemplate;
 				})
 				.collect(Collectors.toList());
@@ -83,38 +85,6 @@ public class MailFilterServiceImpl implements MailFilterService {
 							.build();
 				})
 				.collect(Collectors.toList());
-
-	}
-
-	private class FilterTemplate {
-
-		private String filterName;
-		private Field field;
-		private Operator operator;
-		private Object referenceValue;
-
-		public FilterTemplate(String filterName, Field field, Operator operator, Object referenceValue) {
-			this.filterName = filterName;
-			this.field = field;
-			this.operator = operator;
-			this.referenceValue = referenceValue;
-		}
-
-		public String getFilterName() {
-			return filterName;
-		}
-
-		public Field getField() {
-			return field;
-		}
-
-		public Operator getOperator() {
-			return operator;
-		}
-
-		public Object getReferenceValue() {
-			return referenceValue;
-		}
 
 	}
 }
