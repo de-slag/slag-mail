@@ -25,6 +25,15 @@
 			<groupId>de.slag.demo</groupId>
 			<artifactId>slag-basic-backend-api</artifactId>
 			<version>0.2.0</version>
+<<<<<<< HEAD
+=======
+		</dependency>
+
+		<dependency>
+			<groupId>de.slag.mail</groupId>
+			<artifactId>slag-mail-commons</artifactId>
+			<version>0.5.0-SNAPSHOT</version>
+>>>>>>> branch 'development' of https://github.com/de-slag/slag-mail.git
 		</dependency>
 
 		<dependency>
