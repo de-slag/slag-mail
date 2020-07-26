@@ -8,6 +8,7 @@ import javax.annotation.Resource;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -55,11 +56,26 @@ public class MailBasicBackendController implements BasicBackendController {
 		}
 		final String username = authService.getUsername(token);
 
+		final Collection<MailFilter> createMailFilters;
 		Collection<String> result = new ArrayList<>();
-		final Collection<MailFilter> createMailFilters = mailFilterService.createMailFilters(username);
+
+		try {
+			createMailFilters = mailFilterService.createMailFilters(username);
+		} catch (Exception e) {
+			LOG.error(e.getMessage(), e);
+			return "ERROR: " + e.getMessage();
+		}
 		result.add(createMailFilters.size() + " filters created");
 		Map<String, String> properties = admConfigAdvancedService.getProperties(username + "#");
+
 		result.add(properties.toString());
+		final boolean clearConfig = BooleanUtils
+				.isTrue(Boolean.valueOf(admConfigAdvancedService.getProperty(username + "#" + "backend.clear.config")));
+		if (clearConfig) {
+			properties.keySet()
+					.forEach(key -> admConfigAdvancedService.putProperty(key, null));
+			result.add("properties cleared");
+		}
 		result.add("all done");
 
 		return String.join("\n", result);

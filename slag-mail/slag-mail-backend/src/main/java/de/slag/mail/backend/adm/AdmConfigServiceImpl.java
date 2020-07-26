@@ -54,6 +54,9 @@ public class AdmConfigServiceImpl implements AdmConfigAdvancedService, AdmConfig
 
 	@Override
 	public void putProperty(String key, String value) {
+		if (value == null) {
+			properties.remove(key);
+		}
 		properties.put(key, value);
 	}
 

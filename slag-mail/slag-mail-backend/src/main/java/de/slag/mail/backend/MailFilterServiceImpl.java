@@ -3,6 +3,7 @@ package de.slag.mail.backend;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -15,6 +16,8 @@ import org.springframework.stereotype.Service;
 
 import de.slag.mail.backend.adm.AdmConfigAdvancedService;
 import de.slag.mail.backend.adm.AdmConfigPropertyUtils;
+import de.slag.mail.backend.filter.MessageFilterConfigValidator;
+import de.slag.mail.backend.filter.MessageFilterTemplate;
 import de.slag.mail.commons2.filter.MailFilter;
 import de.slag.mail.commons2.filter.MailFilter.Field;
 import de.slag.mail.commons2.filter.MailFilter.Operator;
@@ -31,16 +34,46 @@ public class MailFilterServiceImpl implements MailFilterService {
 		String userPrefix = username + "#";
 		String userFilterPrefix = userPrefix + "filter";
 		Map<String, String> properties = admConfigAdvancedService.getProperties(userFilterPrefix);
+
+		final List<String> invalidMessages = new ArrayList<>();
+
+		final List<String> keys = properties.keySet()
+				.stream()
+				.map(key -> key.substring(userPrefix.length()))
+				.collect(Collectors.toList());
+
+		boolean anyMatch = keys.stream()
+				.anyMatch(key -> {
+					final MessageFilterConfigValidator messageFilterConfigValidator = new MessageFilterConfigValidator(
+							key);
+					boolean valid = messageFilterConfigValidator.isValid();
+					if (valid) {
+						return false;
+					}
+					invalidMessages.add(messageFilterConfigValidator.getReason());
+					return true;
+				});
+
+		if (anyMatch) {
+			throw new RuntimeException(String.join("\n", invalidMessages));
+		}
+
 		Collection<Long> filterIds = AdmConfigPropertyUtils.findIdsFor(userFilterPrefix, properties.keySet());
 
-		final List<FilterTemplate> filterTemplates = filterIds.stream()
+		final List<MessageFilterTemplate> filterTemplates = filterIds.stream()
 				.map(id -> {
 					String nameKey = String.format("%sfilter.%s.name", userPrefix, id);
 					String configKey = String.format("%sfilter.%s.config", userPrefix, id);
 
 					String filterName = properties.get(nameKey);
-					String configString = properties.get(configKey);
-					String[] split = configString.split(";");
+					if (filterName == null) {
+						throw new RuntimeException(String.format("key '%s' is null", nameKey));
+					}
+					String configValue = properties.get(configKey);
+					if (configValue == null) {
+						throw new RuntimeException(String.format("key '%s' is null", configKey));
+					}
+					String[] split = configValue.split(";");
 					String fieldString = split[0];
 					String operatorString = split[1];
 					String referenceValueString = split[2];
@@ -69,7 +102,8 @@ public class MailFilterServiceImpl implements MailFilterService {
 						throw new RuntimeException("not supported: " + field);
 					}
 
-					FilterTemplate filterTemplate = new FilterTemplate(filterName, field, operator, referenceValue);
+					MessageFilterTemplate filterTemplate = new MessageFilterTemplate(filterName, field, operator,
+							referenceValue);
 					return filterTemplate;
 				})
 				.collect(Collectors.toList());
@@ -83,38 +117,6 @@ public class MailFilterServiceImpl implements MailFilterService {
 							.build();
 				})
 				.collect(Collectors.toList());
-
-	}
-
-	private class FilterTemplate {
-
-		private String filterName;
-		private Field field;
-		private Operator operator;
-		private Object referenceValue;
-
-		public FilterTemplate(String filterName, Field field, Operator operator, Object referenceValue) {
-			this.filterName = filterName;
-			this.field = field;
-			this.operator = operator;
-			this.referenceValue = referenceValue;
-		}
-
-		public String getFilterName() {
-			return filterName;
-		}
-
-		public Field getField() {
-			return field;
-		}
-
-		public Operator getOperator() {
-			return operator;
-		}
-
-		public Object getReferenceValue() {
-			return referenceValue;
-		}
 
 	}
 }
