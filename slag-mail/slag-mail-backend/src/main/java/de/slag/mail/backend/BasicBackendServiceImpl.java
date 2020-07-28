@@ -7,23 +7,35 @@ import org.springframework.stereotype.Service;
 import de.slag.basic.backend.api.BasicBackendService;
 import de.slag.basic.model.ConfigProperty;
 import de.slag.basic.model.Token;
+import de.slag.mail.backend.adm.AdmConfigService;
+import de.slag.mail.backend.adm.AuthService;
 import de.slag.mail.commons2.filter.MailFilter;
 import de.slag.mail.commons2.filter.MailFilterBuilder;
 
 @Service
 public class BasicBackendServiceImpl implements BasicBackendService {
-	
+
 	@Resource
 	private MailFilterService mailFilterService;
 
+	@Resource
+	private AuthService authService;
+
+	@Resource
+	private AdmConfigService admConfigService;
+
 	@Override
 	public Token getLogin(String username, String password) {
-		// TODO Auto-generated method stub
-		return null;
+		String tokenString = authService.getToken(username, password);
+		Token token = new Token();
+		token.setTokenString(tokenString);
+		return token;
 	}
 
 	@Override
 	public BackendState putConfigProperty(String token, ConfigProperty configProperty) {
+		String username = authService.getUsername(token);
+		admConfigService.putProperty(username + "." + configProperty.getKey(), configProperty.getValue());
 		// TODO Auto-generated method stub
 		return null;
 	}

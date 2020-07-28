@@ -14,8 +14,8 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
-import de.slag.mail.backend.adm.AdmConfigAdvancedService;
 import de.slag.mail.backend.adm.AdmConfigPropertyUtils;
+import de.slag.mail.backend.adm.AdmConfigService;
 import de.slag.mail.backend.filter.MessageFilterConfigValidator;
 import de.slag.mail.backend.filter.MessageFilterTemplate;
 import de.slag.mail.commons2.filter.MailFilter;
@@ -27,13 +27,13 @@ import de.slag.mail.commons2.filter.MailFilterBuilder;
 public class MailFilterServiceImpl implements MailFilterService {
 
 	@Resource
-	private AdmConfigAdvancedService admConfigAdvancedService;
+	private AdmConfigService admConfigService;
 
 	@Override
 	public List<MailFilter> createMailFilters(String username) {
 		String userPrefix = username + "#";
 		String userFilterPrefix = userPrefix + "filter";
-		Map<String, String> properties = admConfigAdvancedService.getProperties(userFilterPrefix);
+		Map<String, String> properties = admConfigService.getProperties(userFilterPrefix);
 
 		final List<String> invalidMessages = new ArrayList<>();
 

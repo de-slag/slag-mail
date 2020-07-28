@@ -15,7 +15,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AdmConfigServiceImpl implements AdmConfigAdvancedService, AdmConfigService {
+public class AdmConfigServiceImpl implements AdmConfigService {
 
 	private static final Log LOG = LogFactory.getLog(AdmConfigServiceImpl.class);
 

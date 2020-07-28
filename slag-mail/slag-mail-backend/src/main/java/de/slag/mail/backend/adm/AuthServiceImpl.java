@@ -27,7 +27,7 @@ public class AuthServiceImpl implements AuthService {
 	private static final Log LOG = LogFactory.getLog(AuthServiceImpl.class);
 
 	@Resource
-	private AdmConfigAdvancedService admConfigAdvancedService;
+	private AdmConfigService admConfigService;
 
 	private Map<String, Collection<AuthToken>> tokenMap = new HashMap<>();
 
@@ -60,7 +60,7 @@ public class AuthServiceImpl implements AuthService {
 	}
 
 	private void setUpUsers() {
-		final Map<String, String> properties = admConfigAdvancedService.getProperties(ADM_USER_PREFIX);
+		final Map<String, String> properties = admConfigService.getProperties(ADM_USER_PREFIX);
 		LOG.info(properties);
 		final Set<String> userIds = properties.keySet()
 				.stream()
