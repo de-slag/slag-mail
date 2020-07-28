@@ -14,8 +14,8 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
-import de.slag.mail.backend.adm.AdmConfigPropertyUtils;
-import de.slag.mail.backend.adm.AdmConfigService;
+import de.slag.basic.backend.impl.adm.AdmConfigPropertyUtils;
+import de.slag.basic.backend.impl.adm.AdmConfigService;
 import de.slag.mail.backend.filter.MessageFilterConfigValidator;
 import de.slag.mail.backend.filter.MessageFilterTemplate;
 import de.slag.mail.commons2.filter.MailFilter;

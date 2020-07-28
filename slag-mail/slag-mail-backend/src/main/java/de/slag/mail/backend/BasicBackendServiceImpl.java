@@ -5,10 +5,10 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import de.slag.basic.backend.api.BasicBackendService;
+import de.slag.basic.backend.impl.adm.AdmConfigService;
+import de.slag.basic.backend.impl.auth.AuthService;
 import de.slag.basic.model.ConfigProperty;
 import de.slag.basic.model.Token;
-import de.slag.mail.backend.adm.AdmConfigService;
-import de.slag.mail.backend.adm.AuthService;
 import de.slag.mail.commons2.filter.MailFilter;
 import de.slag.mail.commons2.filter.MailFilterBuilder;
 

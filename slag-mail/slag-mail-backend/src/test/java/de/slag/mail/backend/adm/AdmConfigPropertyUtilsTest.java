@@ -8,6 +8,8 @@ import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import de.slag.basic.backend.impl.adm.AdmConfigPropertyUtils;
+
 class AdmConfigPropertyUtilsTest {
 
 	@Test
