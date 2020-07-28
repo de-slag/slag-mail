@@ -1,7 +1,10 @@
 package de.slag.mail.backend;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Service;
 
 import de.slag.basic.backend.api.BasicBackendService;
@@ -15,6 +18,8 @@ import de.slag.mail.commons2.filter.MailFilterBuilder;
 @Service
 public class BasicBackendServiceImpl implements BasicBackendService {
 
+	private static final Log LOG = LogFactory.getLog(BasicBackendServiceImpl.class);
+
 	@Resource
 	private MailFilterService mailFilterService;
 
@@ -23,6 +28,11 @@ public class BasicBackendServiceImpl implements BasicBackendService {
 
 	@Resource
 	private AdmConfigService admConfigService;
+
+	@PostConstruct
+	public void init() {
+		LOG.info("initialized");
+	}
 
 	@Override
 	public Token getLogin(String username, String password) {
