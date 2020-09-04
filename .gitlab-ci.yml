@@ -14,4 +14,4 @@ build:
   # paths:    - slag-mail
   script:
 #    - mvn $MAVEN_CLI_OPTS compile
-    - mvn -f slag-mail/pom.xml compile
+    - mvn -f slag-mail/pom.xml compile test
