@@ -4,10 +4,10 @@ image: maven:latest
 #  MAVEN_CLI_OPTS: "-s .m2/settings.xml --batch-mode"
 #  MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
 
-cache:
-  paths:
-    - .m2/repository/
-    - target/
+#cache:
+#  paths:
+#    - .m2/repository/
+#    - target/
 
 build:
   stage: build
