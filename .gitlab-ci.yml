@@ -11,8 +11,7 @@ cache:
 
 build:
   stage: build
-  paths:
-    - slag-mail
+  # paths:    - slag-mail
   script:
 #    - mvn $MAVEN_CLI_OPTS compile
-    - mvn compile
+    - mvn -f slag-mail/pom.xml compile
